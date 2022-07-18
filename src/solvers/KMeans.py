@@ -33,7 +33,7 @@ class KMeans(ISolver):
     for centroid in centroids:
       self.centroids.append({
         "point": centroid,
-        "label": len(self.centroids) + 1
+        "label": f"Group #{len(self.centroids) + 1}"
       })
       print(f"Centroid #{len(self.centroids)}: {centroid}")
   
