@@ -38,16 +38,16 @@ class KMeans(ISolver):
       print(f"Centroid #{len(self.centroids)}: {centroid}")
   
   def __get_min_max_values(self, dimensions, data):
-    max_values = [-inf for _ in range(dimensions)]
-    min_values = [inf for _ in range(dimensions)]
+    self.max_values = [-inf for _ in range(dimensions)]
+    self.min_values = [inf for _ in range(dimensions)]
     for row in data:
       values = row["data"]
       for i in range(4):
-        if values[i] > max_values[i]:
-          max_values[i] = values[i]
-        if values[i] < min_values[i]:
-          min_values[i] = values[i]
-    return min_values, max_values
+        if values[i] > self.max_values[i]:
+          self.max_values[i] = values[i]
+        if values[i] < self.min_values[i]:
+          self.min_values[i] = values[i]
+    return self.min_values, self.max_values
   
   def __generate_random_centroid(self, min_values, max_values):
     centroid = []
@@ -64,14 +64,15 @@ class KMeans(ISolver):
   
     new_centroids = []
     for centroid in centroid_points:
-      if len(centroid) == 0:
-        continue
-      acc = [0 for _ in range(len(point))]
-      for point in centroid:
-        for i in range(len(point)):
-          acc[i] += point[i]
-      for i in range(len(acc)):
-        acc[i] /= len(centroid)
+      if len(centroid) != 0:
+        acc = [0 for _ in range(len(point))]
+        for point in centroid:
+          for i in range(len(point)):
+            acc[i] += point[i]
+        for i in range(len(acc)):
+          acc[i] /= len(centroid)
+      else:
+        acc = self.__generate_random_centroid(self.min_values, self.max_values)
       new_centroids.append(acc)
     
     return new_centroids
