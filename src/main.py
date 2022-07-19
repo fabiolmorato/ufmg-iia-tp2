@@ -116,7 +116,12 @@ class TP2:
       else:
         recall = confusion_matrix[0][0] / recall_divider
       
-      f1 = 2 * (precision * recall) / (precision + recall)
+      f1_divider = (precision + recall)
+      if f1_divider == 0:
+        f1 = 1
+      else:
+        f1 = 2 * (precision * recall) / (precision + recall)
+
       print(f"F1 Score: {f1}")
 
   def get_arguments(self, argv):
